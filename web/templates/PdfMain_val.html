@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/dist/css/bootstrap.min.css', _external=True) }}" rel="stylesheet">
+
+
+    <!-- Menu CSS -->
+    <link href="{{ url_for('static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css', _external=True) }}" rel="stylesheet">
+
+
+    <link href="{{ url_for('static', filename='table/jquery.dataTables.min.css', _external=True) }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/dataTables.dateTime.min.css', _external=True) }}" rel="stylesheet">
+
+
+    <script src="{{ url_for('static', filename='table/jquery-3.5.1.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='table/jquery.dataTables.min.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='table/moment.min.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='table/dataTables.dateTime.min.js', _external=True) }}"></script>
+
+    <style>
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+            page-break-before: auto;
+            page-break-inside: avoid !important;
+        }
+        
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+            page-break-before: auto;
+            page-break-inside: avoid !important;
+        }
+        
+        .new-section table.fixed {
+            table-layout: fixed;
+        }
+        
+        th {
+            height: 35px;
+            page-break-before: auto;
+            page-break-inside: avoid !important;
+        }
+        
+        td {
+            height: 25px;
+            page-break-before: auto;
+            page-break-inside: avoid !important;
+        }
+        
+        .wrapping-div {
+            display: block;
+            page-break-inside: avoid !important;
+        }
+        
+        .wrapping-div table,
+        .wrapping-div tbody,
+        .wrapping-div tr,
+        .wrapping-div td,
+        .wrapping-div th {
+            page-break-inside: avoid !important;
+        }
+    </style>
+
+</head>
+
+<body class="fix-header">
+
+    <div id="wrapper">
+
+
+        <!-- /row -->
+        <div class="row">
+
+            <div class="col-sm-12">
+                <img src="{{ url_for('static', filename='plugins/images/icon_bg.png', _external=True) }}" style="padding-left: 90%; width: 100%;" alt="home" class="light-logo" />
+                <div class="white-box">
+
+                    <h2 align="center" class="box-title">Overview</h2>
+
+                    <div class="wrapping-div">
+                        {%for j in st %}
+                        <table border="1" width="100%" height="100%">
+                            <thead>
+                                <tr>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; Bacth No </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{bacth}}</td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; Start Date </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[2]}} </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c; color:#ffffff">&nbsp;&nbsp; End Date </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[3]}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; Recipe Name </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{id}} </td>
+
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; Start Time </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[4]}}</td>
+
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; End Time </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[5]}}</td>
+                                </tr>
+
+                            </thead>
+
+
+
+                        </table>
+                        {%endfor%}
+                        <br>
+                        <h2 align="center" class="box-title">Main Mixer</h2>
+
+                        <table border="1" id="example" class="display" style="width:100%">
+                            <thead>
+
+                                <tr>
+                                    <th style="text-align: center">Date</th>
+                                    <th style="text-align: center">Time</th>
+                                    <th style="text-align: center">Recipe Step</th>
+                                    <th style="text-align: center">Weight (kg)</th>
+                                    <th style="text-align: center">Temp (°C)</th>
+                                    <th style="text-align: center">Recir Temp (°C)</th>
+                                    <th style="text-align: center">Pressure (Bar)</th>
+                                    <th style="text-align: center">Agitator Speed (%)</th>
+                                    <th style="text-align: center">Recir Speed (%)</th>
+                                    <th style="text-align: center">Homo Speed (%)</th>
+                                    <th style="text-align: center">Recir Status</th>
+                                    <th style="text-align: center">Recir Homo Mode</th>
+                                    <th style="text-align: center">Recir Cool Mode</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for i in Main_Validation%} {%if 'None' in i[2]|string%}
+                                <tr class="group">
+                                    <td style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">{{i[0]}}</td>
+                                    <td style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">{{i[1]}}</td>
+                                    <td colspan="11" style="text-align: left; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">&nbsp;&nbsp;{{i[15]}}&nbsp;&nbsp;,&nbsp;&nbsp;Old Value : {{i[16]}}&nbsp;&nbsp;,&nbsp;&nbsp;New Value : {{i[17]}}&nbsp;&nbsp;,&nbsp;&nbsp;By {{i[13]}} ({{i[14]}}) </td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                </tr>
+                                {%else%}
+                                <tr>
+
+                                    <td style="text-align: center">{{i[0]}}</td>
+                                    <td style="text-align: center">{{i[1]}}</td>
+                                    <td style="text-align: center">{{i[2]}}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[3]) }}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[4]) }}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[5]) }}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[6]) }}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[7]) }}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[8]) }}</td>
+                                    <td style="text-align: center">{{ "%.2f"|format(i[9]) }}</td>
+
+
+
+                                    {% if 'true' in i[10]|string %}
+                                    <td style="text-align: center">Active</td>
+                                    {%elif 'false' in i[10]|string %}
+                                    <td style="text-align: center">Ready</td>
+                                    {%else%}
+                                    <td style="text-align: center">{{i[10]}}</td>
+                                    {%endif%} {% if '0' in i[11]|string %}
+                                    <td style="text-align: center">Bypass</td>
+                                    {%elif '0' in i[11]|string%}
+                                    <td style="text-align: center">Homo</td>
+                                    {%else%}
+                                    <td style="text-align: center">{{i[11]}}</td>
+                                    {%endif%} {% if '0' in i[12]|string %}
+                                    <td style="text-align: center">Bypass</td>
+                                    {%elif '0' in i[12]|string %}
+                                    <td style="text-align: center">Cool</td>
+                                    {%else%}
+                                    <td style="text-align: center">{{i[12]}}</td>
+                                    {%endif%}
+
+
+
+
+                                </tr>
+                                {%endif%} {% endfor %}
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+
+    <!-- /#wrapper -->
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = minDate.val();
+                var max = maxDate.val();
+                var date = new Date(data[2]);
+
+                console.log(date)
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date <= max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+
+
+
+        $(document).ready(function() {
+
+
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'YYYY-MM-DD'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'YYYY-MM-DD'
+            });
+
+            // DataTables initialisation
+            var groupColumn = 2;
+            var data1 = 2;
+            var dataid;
+            var table = $('#example').DataTable({
+                scrollY: '50vh',
+                scrollCollapse: true,
+                paging: false,
+                "searching": false,
+                "orderable": false,
+                "ordering": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+
+                "columnDefs": [{
+                    "visible": false,
+                    "targets": data1,
+                    className: 'dt-head-center'
+
+                }],
+                dom: 'Bfti',
+                pageLength: -1,
+                buttons: [{
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+
+                }],
+                "order": [
+                    [groupColumn, 'asc'],
+                    [data1, 'asc']
+
+                ],
+                "displayLength": 25,
+                "drawCallback": function(settings) {
+
+                    var api = this.api();
+                    var rows = api.rows({
+                        page: 'current'
+                    }).nodes();
+                    var last = null;
+
+                    api.column(groupColumn, {
+                        page: 'current'
+                    }).data().each(function(group, i) {
+                        console.log(group);
+
+
+
+                    });
+                }
+            });
+
+            // Refilter the table
+            $('#min, #max').on('change', function() {
+                table.draw();
+            });
+
+        });
+
+
+        var data = table.row('#row-1');
+        console.log(data)
+
+        function show() {
+            var x = document.getElementById("myDIV ");
+            if (x.style.display === "none ") {
+                x.style.display = "block ";
+            } else {
+                x.style.display = "none ";
+            }
+        }
+    </script>
+
+    <script>
+        function print() {
+            var objFra = document.getElementById('test');
+            objFra.contentWindow.focus();
+            objFra.contentWindow.print();
+        }
+    </script>
+
+
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for( 'static', filename='bootstrap/dist/js/bootstrap.min.js' , _external=True) }} "></script>
+    <script src="{{ url_for( 'static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', _external=True ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/jquery.slimscroll.js', _external=True ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/waves.js', _external=True ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/custom.min.js' , _external=True) }} "></script>
+
+</body>
+
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+    <!-- Menu CSS -->
+    <link href="{{ url_for('static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/colors/default.css') }}" rel="stylesheet">
+
+
+
+    <link href="{{ url_for('static', filename='table/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/jquery.buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/dataTables.dateTime.min.css') }}" rel="stylesheet">
+
+
+    <script src="{{ url_for('static', filename='table/jquery-3.5.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/dataTables.dateTime.min.js') }}"></script>
+
+
+
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <div class="top-left-part">
+                    <!-- Logo -->
+                    <a class="logo" href="#">
+                        <!-- Logo icon image, you can use font-icon also --><b>
+                        
+                     </b>
+                        <!-- Logo text image you can use text also --><span class="hidden-xs">
+                        <!--This is dark logo text--><!--This is light logo text-->
+                        <img src="{{ url_for('static', filename='plugins/images/icon_bg.png') }}" style="padding-left: 20%; width: 60%;" alt="home" class="light-logo" />
+                     </span> </a>
+
+
+                </div>
+                <!-- /Logo -->
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link" data-toggle="dropdown" href="#"> <b class="hidden-xs">{{nameUser}}</b></a>
+
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+
+                            <div class="dropdown-divider"></div>
+                            <a href="/logout" class="dropdown-item">
+                                <h4 class="active">&nbsp; Log Out</h4>
+
+                            </a>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav" id="side-menu">
+                    <li style="padding: 70px 0 0;">
+
+                    </li>
+
+                    <li class="nav-item">
+
+                        <a href="/home" class="waves-effect" style="font-weight: bold;">
+                            <i class="fa fa-table fa-fw"></i>Production Report
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="waves-effect" style="font-weight: bold;">
+                            <i class="fa fa-table fa-fw"></i>CIP Report
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/home_CIP_Mix" style="font-weight: bold;">
+                                    <i aria-hidden="false"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Main Mixer
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/home_CIP_Pre" style="font-weight: bold;">
+                                    <i aria-hidden="false"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pre Mixer
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/home_CIP_ST100" style="font-weight: bold;">
+                                    <i aria-hidden="false"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Storage Tank 100
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/home_CIP_ST200" style="font-weight: bold;">
+                                    <i aria-hidden="false"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Storage Tank 200
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% if 'admin' in nameUser%}
+                    <li class="nav-item">
+
+                        <a href="/User_Management" class="waves-effect" style="font-weight: bold;">
+                            <i class="fa fa-table fa-fw"></i>User Management
+                        </a>
+                    </li>
+
+                    {%endif%}
+
+                </ul>
+
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Batch Report</h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+
+                        <ol class="breadcrumb">
+                            <li><a href="#">Dashboard</a></li>
+                            <li class="active">Batch Report</li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /row -->
+
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+
+                var min = minDate.val();
+                var max = maxDate.val();
+
+                var dateString = data[2];
+
+                var dateMomentObject = moment(dateString, "DD/MM/YYYY"); // 1st argument - string, 2nd argument - format
+                var date = dateMomentObject.toDate();
+
+                console.log(data[2])
+                console.log(date)
+
+                let date2 = new Date(date.getTime() + 86400E3);
+                console.log(date2)
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date2 && max === null) ||
+                    (min <= date2 && date <= max)
+
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        $(document).ready(function() {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'DD/MM/YYYY'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'DD/MM/YYYY'
+            });
+
+            // DataTables initialisation
+            var table = $('#example').DataTable();
+
+            // Refilter the table
+            $('#min, #max').on('change', function() {
+                table.draw();
+            });
+        });
+    </script>
+
+    <!-- jQuery -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.slimscroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/waves.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.min.js') }}"></script>
+
+</body>
+
+</html>

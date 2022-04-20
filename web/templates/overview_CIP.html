@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+    <!-- Menu CSS -->
+    <link href="{{ url_for('static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/colors/default.css') }}" rel="stylesheet">
+
+
+
+    <link href="{{ url_for('static', filename='table/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/jquery.buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/dataTables.dateTime.min.css') }}" rel="stylesheet">
+
+
+    <script src="{{ url_for('static', filename='table/jquery-3.5.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/dataTables.dateTime.min.js') }}"></script>
+
+    <style>
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+    </style>
+
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <div class="top-left-part">
+                    <!-- Logo -->
+                    <a class="logo" href="/select">
+                        <!-- Logo icon image, you can use font-icon also --><b>
+                        
+                     </b>
+                        <!-- Logo text image you can use text also --><span class="hidden-xs">
+                        <!--This is dark logo text--><!--This is light logo text-->
+                        <img src="{{ url_for('static', filename='plugins/images/icon_bg.png') }}" style="padding-left: 20%; width: 60%;" alt="home" class="light-logo" />
+                     </span> </a>
+                </div>
+                <!-- /Logo -->
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link" data-toggle="dropdown" href="#"> <b class="hidden-xs">{{nameUser}}</b></a>
+
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+
+                            <div class="dropdown-divider"></div>
+                            <a href="/logout" class="dropdown-item">
+                                <h4 class="active">&nbsp; Log Out</h4>
+
+                            </a>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+        {%for i in data%}
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav nav-sidebar" id="side-menu">
+                    <li style="padding: 70px 0 0;" class="nav-item menu-open">
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="waves-effect" onclick="show()" style="font-weight: bold;">
+
+                            <i class="fa fa-table fa-fw"></i>Batch Report
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/overview_CIP/{{name}}/{{db}}/{{id}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Overview
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/bacth_CIP/{{name}}/{{db}}/{{id}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{st}}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="waves-effect" style="font-weight: bold;">
+                            <i class="fa fa-table fa-fw"></i>Validation Report
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/Validation_CIP/{{name}}/{{db}}/{{id}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{st}}
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Overview</h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+
+                        <ol class="breadcrumb">
+                            <li><a href="#">Dashboard</a></li>
+                            <li class="active">Bacth No : {{i[0]}}</li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+
+                <!-- /row -->
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="white-box">
+
+                            <h3 class="box-title">Overview </h3>
+                            <a href="/pdfOverview_CIP/{{name}}/{{db}}/{{id}}" target="_blank" class="btn btn-info" role="button">PDF</a>
+
+                            <div class="table-responsive">
+
+                                <br>
+                                <table class="table table-striped" style="width:100%">
+
+                                    <tbody>
+                                        <tr>
+                                            <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px; "> Bacth No </td>
+                                            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;"> {{i[0]}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px; "> Recipe Name </td>
+                                            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;"> {{i[1]}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px; "> Start Date </td>
+                                            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;"> {{i[2]}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px; "> Start Time </td>
+                                            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;"> {{i[3]}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px; "> End Date </td>
+                                            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;"> {{i[4]}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px; "> End Time </td>
+                                            <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;"> {{i[5]}} </td>
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+
+
+
+
+
+                            </div>
+
+
+
+                            <div id="B_Pre_Mixig" class="tabcontent ">
+                                <div class="table-responsive">
+                                    <table border="0" cellspacing="5" cellpadding="5">
+                                        <tbody>
+                                            <tr>
+                                                <td>Start Date : &nbsp;</td>
+                                                <td><input type="text" id="min" name="min"> &nbsp;&nbsp;</td>
+
+                                                <td>To : &nbsp;</td>
+                                                <td><input type="text" id="max" name="max"></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                    <table id="example" class="display nowrap" style="width:100%">
+                                        <thead>
+                                            <tr>
+
+                                                <th colspan="8" align="center"></th>
+                                                <th colspan="7" align="center"></th>
+                                            </tr>
+                                            <tr>
+                                                <th>Bacth No</th>
+                                                <th>Recipe Name</th>
+                                                <th>Recipe Step</th>
+                                                <th>Phase ID</th>
+                                                <th>Step Start Date</th>
+                                                <th>Step Start Time</th>
+                                                <th>Step End Date</th>
+                                                <th>Step End Time</th>
+                                                <th>SP 1</th>
+                                                <th>PV 1</th>
+                                                <th>SP 2</th>
+                                                <th>PV 2</th>
+                                                <th>SP 3</th>
+                                                <th>PV 3</th>
+                                                <th>SP 4</th>
+                                                <th>PV 4</th>
+                                                <th>SP 5</th>
+                                                <th>PV 5</th>
+                                                <th>SP 6</th>
+                                                <th>PV 6</th>
+                                                <th></th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+
+                                                <td colspan="2" align="center">Wide column</td>
+                                                <td style="display: none;"></td>
+                                                <td colspan="2" align="center">Wide column</td>
+                                                <td style="display: none;"></td>
+                                                <td colspan="2" align="center">Wide column</td>
+                                                <td style="display: none;"></td>
+                                                <td colspan="2" align="center">Wide column</td>
+                                                <td style="display: none;"></td>
+                                                <td colspan="2" align="center">Wide column</td>
+                                                <td style="display: none;"></td>
+                                                <td colspan="2" align="center">Wide column</td>
+                                                <td style="display: none;"></td>
+
+
+
+
+                                                <td></td>
+                                            </tr>
+                                            {%for i in Pre_bacth%}
+                                            <tr>
+                                                <td><a href="overview_CIP/{{i[0]}}">{{i[0]}}</a></td>
+                                                <td>{{i[1]}}</td>
+                                                <td>{{i[2]}}</td>
+                                                <td>{{i[3]}}</td>
+                                                <td>{{i[4]}}</td>
+                                                <td>{{i[5]}}</td>
+                                                <td>{{i[6]}}</td>
+                                                <td>{{i[7]}}</td>
+                                                <td>{{i[8]}}</td>
+                                                <td>{{i[9]}}</td>
+                                                <td>{{i[10]}}</td>
+                                                <td>{{i[11]}}</td>
+                                                <td>{{i[12]}}</td>
+                                                <td>{{i[13]}}</td>
+                                                <td>{{i[14]}}</td>
+                                                <td>{{i[15]}}</td>
+                                                <td></td>
+                                            </tr>
+                                            {% endfor %}
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Bacth No</th>
+                                                <th>Recipe Name</th>
+                                                <th>Recipe Step</th>
+                                                <th>Phase ID</th>
+                                                <th>Step Start Date</th>
+                                                <th>Step Start Time</th>
+                                                <th>Step End Date</th>
+                                                <th>Step End Time</th>
+                                                <th>SP 1</th>
+                                                <th>PV 1</th>
+                                                <th>SP 2</th>
+                                                <th>PV 2</th>
+                                                <th>SP 3</th>
+                                                <th>PV 3</th>
+                                                <th>SP 4</th>
+                                                <th>PV 4</th>
+                                                <th>SP 5</th>
+                                                <th>PV 5</th>
+                                                <th>SP 6</th>
+                                                <th>PV 6</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        {% endfor %}
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = minDate.val();
+                var max = maxDate.val();
+                var date = new Date(data[2]);
+
+                console.log(date)
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date <= max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        $(document).ready(function() {
+
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'YYYY-MM-DD'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'YYYY-MM-DD'
+            });
+
+            // DataTables initialisation
+            var table = $('#example').DataTable({
+                "orderCellsTop": true
+            });
+
+            // Refilter the table
+            $('#min, #max').on('change', function() {
+                table.draw();
+            });
+        });
+
+        function show() {
+            var x = document.getElementById("myDIV ");
+            if (x.style.display === "none ") {
+                x.style.display = "block ";
+            } else {
+                x.style.display = "none ";
+            }
+        }
+    </script>
+
+
+
+    <!-- jQuery -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for( 'static', filename='bootstrap/dist/js/bootstrap.min.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/jquery.slimscroll.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/waves.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/custom.min.js' ) }} "></script>
+
+</body>
+
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+    <!-- Menu CSS -->
+    <link href="{{ url_for('static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/colors/default.css') }}" rel="stylesheet">
+
+
+
+    <link href="{{ url_for('static', filename='table/jquery.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/jquery.buttons.dataTables.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/dataTables.dateTime.min.css') }}" rel="stylesheet">
+
+
+    <script src="{{ url_for('static', filename='table/jquery-3.5.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='table/dataTables.dateTime.min.js') }}"></script>
+
+
+
+    <style>
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+        
+        #example_info,
+        #example_filter {
+            display: none
+        }
+    </style>
+
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <div class="top-left-part">
+                    <!-- Logo -->
+                    <a class="logo" href="/select">
+                        <!-- Logo icon image, you can use font-icon also --><b>
+                        
+                     </b>
+                        <!-- Logo text image you can use text also --><span class="hidden-xs">
+                        <!--This is dark logo text--><!--This is light logo text-->
+                        <img src="{{ url_for('static', filename='plugins/images/icon_bg.png') }}" style="padding-left: 20%; width: 60%;" alt="home" class="light-logo" />
+                     </span> </a>
+                </div>
+                <!-- /Logo -->
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link" data-toggle="dropdown" href="#"> <b class="hidden-xs">{{nameUser}}</b></a>
+
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
+
+                            <div class="dropdown-divider"></div>
+                            <a href="/logout" class="dropdown-item">
+                                <h4 class="active">&nbsp; Log Out</h4>
+
+                            </a>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- End Top Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav nav-sidebar" id="side-menu">
+                    <li style="padding: 70px 0 0;" class="nav-item menu-open">
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="waves-effect" onclick="show()" style="font-weight: bold;">
+
+                            <i class="fa fa-table fa-fw"></i>Batch Report
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/overview/{{Validation}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Overview
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/Main_bacth/{{Validation}}/{{id}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Main Mixer
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/Pre_bacth/{{Validation}}/{{id}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pre Mixer
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="waves-effect" style="font-weight: bold;">
+                            <i class="fa fa-table fa-fw"></i>Validation Report
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a class="waves-effect" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Main Mixer
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="waves-effect" href="/Pre_Validation/{{Validation}}/{{id}}" style="font-weight: bold;">
+                                    <i aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Pre Mixer
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title">Batch Report Main Validation</h4>
+                    </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+
+                        <ol class="breadcrumb">
+                            <li><a href="#">Dashboard</a></li>
+                            <li class="active">Batch No : {{Validation}}</li>
+                        </ol>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /row -->
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <div class="white-box">
+
+                            <h3 class="box-title">Batch NO : {{Validation}}</h3>
+                            <h3 class="box-title">Recipe Name : {{id}}</h3>
+                            <a href="/pdfMain_val/{{Validation}}/{{id}}" target="_blank" class="btn btn-info" role="button">PDF</a>
+                            <div>
+                                <br>
+                            </div>
+                            <div class="table-responsive">
+                                <table border="0" cellspacing="5" cellpadding="5">
+                                    <tbody>
+                                        <tr>
+                                            <td>Start Time : &nbsp;</td>
+                                            <td><input type="text" id="min" name="min"> &nbsp;&nbsp;</td>
+
+                                            <td>To : &nbsp;</td>
+                                            <td><input type="text" id="max" name="max"></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <br>
+
+                                <table id="example" class="display" style="width:100%">
+                                    <thead>
+
+                                        <tr>
+                                            <th style="text-align: center">Date</th>
+                                            <th style="text-align: center">Time</th>
+                                            <th style="text-align: center">Recipe Step</th>
+                                            <th style="text-align: center">Weight (kg)</th>
+                                            <th style="text-align: center">Temp (°C)</th>
+                                            <th style="text-align: center">Recir Temp (°C)</th>
+                                            <th style="text-align: center">Pressure (Bar)</th>
+                                            <th style="text-align: center">Agitator Speed (%)</th>
+                                            <th style="text-align: center">Recir Speed (%)</th>
+                                            <th style="text-align: center">Homo Speed (%)</th>
+                                            <th style="text-align: center">Recir Status</th>
+                                            <th style="text-align: center">Recir Homo Mode</th>
+                                            <th style="text-align: center">Recir Cool Mode</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {%for i in Main_Validation%} {%if 'None' in i[2]|string%}
+                                        <tr class="group">
+                                            <td style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">{{i[0]}}</td>
+                                            <td style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">{{i[1]}}</td>
+                                            <td colspan="11" style="text-align: left; font-family: Arial, Helvetica, sans-serif; font-weight: bold;">{{i[15]}}&nbsp;&nbsp;,&nbsp;&nbsp;Old Value : {{i[16]}}&nbsp;&nbsp;,&nbsp;&nbsp;New Value : {{i[17]}}&nbsp;&nbsp;,&nbsp;&nbsp;By {{i[13]}} ({{i[14]}}) </td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                            <td style="display: none;"></td>
+                                        </tr>
+                                        {%else%}
+                                        <tr>
+
+                                            <td style="text-align: center">{{i[0]}}</td>
+                                            <td style="text-align: center">{{i[1]}}</td>
+                                            <td style="text-align: center">{{i[2]}}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[3]) }}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[4]) }}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[5]) }}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[6]) }}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[7]) }}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[8]) }}</td>
+                                            <td style="text-align: center">{{ "%.2f"|format(i[9]) }}</td>
+
+
+
+                                            {% if 'true' in i[10]|string %}
+                                            <td style="text-align: center">Active</td>
+                                            {%elif 'false' in i[10]|string %}
+                                            <td style="text-align: center">Ready</td>
+                                            {%else%}
+                                            <td style="text-align: center">{{i[10]}}</td>
+                                            {%endif%} {% if '0' in i[11]|string %}
+                                            <td style="text-align: center">Bypass</td>
+                                            {%elif '0' in i[11]|string%}
+                                            <td style="text-align: center">Homo</td>
+                                            {%else%}
+                                            <td style="text-align: center">{{i[11]}}</td>
+                                            {%endif%} {% if '0' in i[12]|string %}
+                                            <td style="text-align: center">Bypass</td>
+                                            {%elif '0' in i[12]|string %}
+                                            <td style="text-align: center">Cool</td>
+                                            {%else%}
+                                            <td style="text-align: center">{{i[12]}}</td>
+                                            {%endif%}
+
+
+
+
+                                        </tr>
+                                        {%endif%} {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th style="text-align: center">Date</th>
+                                            <th style="text-align: center">Time</th>
+                                            <th style="text-align: center">Recipe Step</th>
+                                            <th style="text-align: center">Weight (kg)</th>
+                                            <th style="text-align: center">Temp (°C)</th>
+                                            <th style="text-align: center">Recir Temp (°C)</th>
+                                            <th style="text-align: center">Pressure (Bar)</th>
+                                            <th style="text-align: center">Agitator Speed (%)</th>
+                                            <th style="text-align: center">Recir Speed (%)</th>
+                                            <th style="text-align: center">Homo Speed (%)</th>
+                                            <th style="text-align: center">Recir Status</th>
+                                            <th style="text-align: center">Recir Homo Mode</th>
+                                            <th style="text-align: center">Recir Cool Mode</th>
+
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <script>
+        var minDate, maxDate;
+        let minDate1, maxDate1;
+
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+
+                var min = minDate.val();
+                var max = maxDate.val();
+
+                var dateString = data[0] + " " + data[1];
+                //console.log(dateString)
+                var dateTimeString = dateString;
+
+                var dateMomentObject = moment(dateTimeString, "DD/MM/YYYY HH:mm:ss"); // 1st argument - string, 2nd argument - format
+                var date = dateMomentObject.toDate();
+
+
+
+                let date2 = new Date(date.getTime() + 3600E3 * 7);
+
+                //console.log(date2)
+
+                console.log(date2)
+                console.log(min)
+                console.log(max)
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date2 <= max) ||
+                    (min <= date2 && max === null) ||
+                    (min <= date2 && date2 <= max)
+
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+        $(document).ready(function() {
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'DD/MM/YYYY HH:mm:SS'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'DD/MM/YYYY HH:mm:SS'
+            });
+
+
+            // DataTables initialisation
+            var table = $('#example').DataTable({
+
+                "orderable": false,
+                "ordering": false,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+            });
+
+            // Refilter the table
+            $('#min, #max').on('change', function() {
+                table.draw();
+            });
+        });
+    </script>
+
+
+
+    <!-- jQuery -->
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for( 'static', filename='bootstrap/dist/js/bootstrap.min.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/jquery.slimscroll.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/waves.js' ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/custom.min.js' ) }} "></script>
+
+</body>
+
+</html>
