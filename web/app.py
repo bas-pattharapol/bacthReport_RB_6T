@@ -16,6 +16,11 @@ login_manager.init_app(app)
 users = {}
 nameUser = None
 
+server = "172.30.1.1"
+database = "RB_6T"
+username = "sa"
+password = "P@ssw0rd"
+
 
 class User(flask_login.UserMixin):
     pass
@@ -52,7 +57,7 @@ def before_request():
 @app.route('/')
 @app.route('/login', methods=["GET","POST"])
 def login():
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     SQL_Login = cnxn.cursor()
     SQL_Login.execute("SELECT username ,password FROM Login ")
 
@@ -96,7 +101,7 @@ def select():
 @flask_login.login_required
 def deleteList(name):
    
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     overview = cnxn.cursor()
     overview.execute("SELECT DISTINCT Batch_No, MAX(Recipe_Name),MAX(Start_Date),MAX(Start_Time),MAX(End_Date),MAX(End_Time),MAX(timeSt) FROM Pre_Batch_Report WHERE End_Time LIKE '%:%' AND Batch_No = '"+name+"' GROUP BY Batch_No ORDER BY MAX(timeSt) DESC")
        #for i in cursor:
@@ -187,7 +192,7 @@ def Validation_CIP(name,db,id):
 @flask_login.login_required
 def Pre_bacth(name1,name2):
    
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Pre_bacth  = cnxn.cursor()
     Pre_bacth.execute("SELECT * FROM Pre_Batch_Report  WHERE Step_End_Time LIKE '%:%' AND Batch_No = '"+ name1+"' ORDER BY Recipe_Step ASC ")
     #for i in cursor:
@@ -200,7 +205,7 @@ def Pre_bacth(name1,name2):
 @flask_login.login_required
 def Main_bacth(name1,name2):
    
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
     Main_bacth.execute("SELECT * FROM Main_Batch_Report  WHERE Step_End_Time LIKE '%:%' AND Batch_No = '"+ name1+"' ORDER BY Recipe_Step ASC ")
     #for i in cursor:
@@ -211,13 +216,13 @@ def Main_bacth(name1,name2):
 @app.route('/pdfOverview/<string:name1>/<string:name2>', methods=['GET', 'POST'])
 def pdfOverview(name1,name2):
 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
     Main_bacth.execute("SELECT * FROM Main_Batch_Report  WHERE Step_End_Time LIKE '%:%' AND Batch_No = '"+ name1+"' ORDER BY Recipe_Step ASC ")
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Pre_bacth  = cnxn.cursor()
     Pre_bacth.execute("SELECT * FROM Pre_Batch_Report  WHERE Step_End_Time LIKE '%:%' AND Batch_No = '"+ name1+"' ORDER BY Recipe_Step ASC ")
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     overview = cnxn.cursor()
     overview.execute("SELECT DISTINCT Batch_No, MAX(Recipe_Name),MAX(Start_Date),MAX(Start_Time),MAX(End_Date),MAX(End_Time),MAX(timeSt) FROM Pre_Batch_Report WHERE End_Time LIKE '%:%' AND Batch_No = '"+name1+"' GROUP BY Batch_No ORDER BY MAX(timeSt) DESC")
    
@@ -371,14 +376,14 @@ def pdfValidation_CIP(name,db,id):
 @app.route('/pdfMain_val/<string:name1>/<string:name2>', methods=['GET', 'POST'])
 def pdfMain_val(name1,name2):
 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_Validation  = cnxn.cursor()
     Main_Validation.execute("DELETE FROM User_Main")
     Main_Validation.execute("INSERT Into User_Main ([Date] ,[Time] ,MM_Recipe_Step ,MM_Weight,MM_Temp, MM_Recir_Temp,MM_Pressure,Agitator_Speed,Recir_Speed,Homo_Speed,Recir_Status,Recir_Homo_Mode ,Recir_Cool_Mode) SELECT [Date] ,[Time] ,MM_Recipe_Step ,MM_Weight,MM_Temp ,MM_Recir_Temp,MM_Pressure,Agitator_Speed,Recir_Speed,Homo_Speed,Recir_Status,Recir_Homo_Mode ,Recir_Cool_Mode FROM Main_Mixer WHERE NOT MM_Recipe_Step = 0  AND Batch_No = '" + name1+"' ORDER BY [Date] ASC ,[Time] ASC ")
     Main_Validation.execute("INSERT Into User_Main ([Date] ,[Time],User_Name,User_Level,User_Activity ,User_Old_Value,User_New_Value,Batch_No,Station) SELECT [Date] ,[Time],User_Name,User_Level,Activity,Old_Value,New_Value,Batch_No,Station FROM User_Adjust WHERE Batch_No = '" + name1+"' AND Station = '101' ORDER BY [Date] ASC ,[Time] ASC")
     Main_Validation.execute("SELECT * FROM User_Main ORDER BY [Date] ASC ,[Time] ASC")
 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     overview = cnxn.cursor()
     overview.execute("SELECT DISTINCT Batch_No, MAX(Recipe_Name),MAX(Start_Date),MAX(Start_Time),MAX(End_Date),MAX(End_Time),MAX(timeSt) FROM Pre_Batch_Report WHERE End_Time LIKE '%:%' AND Batch_No = '"+name1+"' GROUP BY Batch_No ORDER BY MAX(timeSt) DESC")
    
@@ -418,14 +423,14 @@ def pdfMain_val(name1,name2):
 @app.route('/pdfPre_val/<string:name1>/<string:name2>', methods=['GET', 'POST'])
 def pdfPre_val(name1,name2):
 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Pre_Validation  = cnxn.cursor()
     Pre_Validation.execute("DELETE FROM User_Pre")
     Pre_Validation.execute("INSERT Into User_Pre ([Date] ,[Time],PM_Recipe_Step ,PM_Weight ,PM_Temp ,Agitator_Speed ) SELECT [Date] ,[Time],PM_Recipe_Step ,PM_Weight ,PM_Temp ,Agitator_Speed FROM Pre_Mixer WHERE NOT PM_Recipe_Step = 0  AND Batch_No = '" + name1+"' ORDER BY [Date] ASC ,[Time] ASC ")
     Pre_Validation.execute("INSERT Into User_Pre ([Date] ,[Time],User_Name,User_Level,User_Activity ,User_Old_Value,User_New_Value,Batch_No,Station) SELECT [Date] ,[Time],User_Name,User_Level,Activity,Old_Value,New_Value,Batch_No,Station FROM User_Adjust WHERE Batch_No = '" + name1+"' AND Station = '102' ORDER BY [Date] ASC ,[Time] ASC")
     Pre_Validation.execute("SELECT * FROM User_Pre ORDER BY [Date] ASC ,[Time] ASC")
 
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     overview = cnxn.cursor()
     overview.execute("SELECT DISTINCT Batch_No, MAX(Recipe_Name),MAX(Start_Date),MAX(Start_Time),MAX(End_Date),MAX(End_Time),MAX(timeSt) FROM Pre_Batch_Report WHERE End_Time LIKE '%:%' AND Batch_No = '"+name1+"' GROUP BY Batch_No ORDER BY MAX(timeSt) DESC")
    
@@ -469,7 +474,7 @@ def pdfPre_val(name1,name2):
 @flask_login.login_required
 def Main_Validation(name1,name2):
    
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_Validation  = cnxn.cursor()
     Main_Validation.execute("DELETE FROM User_Main")
     Main_Validation.execute("INSERT Into User_Main ([Date] ,[Time] ,MM_Recipe_Step ,MM_Weight,MM_Temp, MM_Recir_Temp,MM_Pressure,Agitator_Speed,Recir_Speed,Homo_Speed,Recir_Status,Recir_Homo_Mode ,Recir_Cool_Mode) SELECT [Date] ,[Time] ,MM_Recipe_Step ,MM_Weight,MM_Temp ,MM_Recir_Temp,MM_Pressure,Agitator_Speed,Recir_Speed,Homo_Speed,Recir_Status,Recir_Homo_Mode ,Recir_Cool_Mode FROM Main_Mixer WHERE NOT MM_Recipe_Step = 0  AND Batch_No = '" + name1+"' ORDER BY [Date] ASC ,[Time] ASC ")
@@ -485,7 +490,7 @@ def Main_Validation(name1,name2):
 @flask_login.login_required
 def Pre_Validation(name1,name2):
    
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Pre_Validation  = cnxn.cursor()
     Pre_Validation.execute("DELETE FROM User_Pre")
     Pre_Validation.execute("INSERT Into User_Pre ([Date] ,[Time],PM_Recipe_Step ,PM_Weight ,PM_Temp ,Agitator_Speed ) SELECT [Date] ,[Time],PM_Recipe_Step ,PM_Weight ,PM_Temp ,Agitator_Speed FROM Pre_Mixer WHERE NOT PM_Recipe_Step = 0  AND Batch_No = '" + name1+"' ORDER BY [Date] ASC ,[Time] ASC ")
@@ -500,9 +505,15 @@ def Pre_Validation(name1,name2):
 @flask_login.login_required
 def home():
     
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     cursor = cnxn.cursor()
-    cursor.execute("SELECT DISTINCT Batch_No, MAX(Recipe_Name),MAX(Start_Date),MAX(Start_Time),MAX(End_Date),MAX(End_Time),MAX(timeSt) FROM Pre_Batch_Report WHERE End_Time LIKE '%:%' AND NOT Batch_No ='' GROUP BY Batch_No ORDER BY MAX(timeSt) DESC ")
+    cursor.execute("""
+                   SELECT bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size,MIN(pv.[DateTime]) as StartDateTime , MAX(pv.[datetime]) as StopDateTime
+                    FROM  BatchHistory.dbo.BatchIdLog bil 
+                    inner join BatchHistory.dbo.ProcessVar pv 
+                    ON bil.Batch_Log_ID = pv.Batch_Log_ID 
+                    GROUP BY bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size
+                   """)
     # for i in cursor:
     #    print(i)
     return render_template('home.html',data = cursor,nameUser=nameUser)  
@@ -566,7 +577,7 @@ def home_CIP_ST200():
 @flask_login.login_required
 def User_Management():
     
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     User_Management = cnxn.cursor()
     User_Management.execute("SELECT  * FROM Login ORDER BY id ASC ")
     
@@ -579,7 +590,7 @@ def User_Management():
 @flask_login.login_required
 def delete(name):
     
-    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     delete = cnxn.cursor()
     delete.execute("DELETE FROM Login WHERE id = " + name )
     delete.commit()
@@ -601,7 +612,7 @@ def update():
         print(id)
 
     
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         update = cnxn.cursor()
         update.execute("UPDATE Login SET username = '"+ user+ "' ,password = '"+ password +"' WHERE id = " + id)
         update.commit()
@@ -621,7 +632,7 @@ def add():
         print(user)
         print(password)
 
-        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=DESKTOP-4PSV1LF;DATABASE=RB_2T;UID=sa;PWD=12345678')
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
         add = cnxn.cursor()
         try:
             add.execute("INSERT INTO Login (username ,password) VALUES ('" + user + "', '" + password + "')")

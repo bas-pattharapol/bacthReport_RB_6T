@@ -154,35 +154,46 @@
                                 <table id="example" class="display nowrap" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th>Batch No</th>
-                                            <th>Recipe Name</th>
-                                            <th>Start Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Date</th>
-                                            <th>End Time</th>
-                                        </tr>
+                                            <th>BatchID</th>
+                                            <th>CampaignID</th>
+                                            <th>LotID</th>
+                                            <th>ProductID</th>
+                                            <th>ProductName</th>
+                                            <th>RecipeID</th>
+                                            <th>RecipeName</th>
+                                            <th>BatchSize</th>
+                                            <th>StartDateTime</th>
+                                            <th>StopDateTime</th>
                                     </thead>
                                     <tbody>
 
                                         {%for i in data%}
                                         <tr>
-                                            <td><a href="overview/{{i[0]}}">{{i[0]}}</a></td>
+                                            <td><a href="overview/{{i[0]}}">{{i[3]}}</a></td>\
                                             <td>{{i[1]}}</td>
                                             <td>{{i[2]}}</td>
-                                            <td>{{i[3]}}</td>
                                             <td>{{i[4]}}</td>
                                             <td>{{i[5]}}</td>
+                                            <td>{{i[6]}}</td>
+                                            <td>{{i[7]}}</td>
+                                            <td>{{i[8]}}</td>
+                                            <td>{{i[9]}}</td>
+                                            <td>{{i[10]}}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th>Batch No</th>
-                                            <th>Recipe Name</th>
-                                            <th>Start Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Date</th>
-                                            <th>End Time</th>
+                                            <th>BatchID</th>
+                                            <th>CampaignID</th>
+                                            <th>LotID</th>
+                                            <th>ProductID</th>
+                                            <th>ProductName</th>
+                                            <th>RecipeID</th>
+                                            <th>RecipeName</th>
+                                            <th>BatchSize</th>
+                                            <th>StartDateTime</th>
+                                            <th>StopDateTime</th>
                                         </tr>
                                     </tfoot>
                                 </table>
