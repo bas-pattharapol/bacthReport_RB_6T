@@ -168,7 +168,7 @@
                                     <tbody>
                                         {%for i in data%}
                                         <tr>
-                                            <td><a href="overview/{{i[0]}}">{{i[3]}}</a></td>\
+                                            <td><a href="overview/{{i[0]}}">{{i[3]}}</a></td>
                                             <td>{{i[1]}}</td>
                                             <td>{{i[2]}}</td>
                                             <td>{{i[4]}}</td>
@@ -219,12 +219,12 @@
                 var min = minDate.val();
                 var max = maxDate.val();
 
-                var dateString = data[2];
+                var dateString = data[8];
 
-                var dateMomentObject = moment(dateString, "DD/MM/YYYY"); // 1st argument - string, 2nd argument - format
+                var dateMomentObject = moment(dateString, "YYYY-MM-DD"); // 1st argument - string, 2nd argument - format
                 var date = dateMomentObject.toDate();
 
-                console.log(data[2])
+                console.log(data[8])
                 console.log(date)
 
                 let date2 = new Date(date.getTime() + 86400E3);
@@ -246,10 +246,10 @@
         $(document).ready(function() {
             // Create date inputs
             minDate = new DateTime($('#min'), {
-                format: 'DD/MM/YYYY'
+                format: 'YYYY-MM-DD'
             });
             maxDate = new DateTime($('#max'), {
-                format: 'DD/MM/YYYY'
+                format: 'YYYY-MM-DD'
             });
 
             // DataTables initialisation
