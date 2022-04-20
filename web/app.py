@@ -103,7 +103,13 @@ def deleteList(name):
    
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     overview = cnxn.cursor()
-    overview.execute("SELECT DISTINCT Batch_No, MAX(Recipe_Name),MAX(Start_Date),MAX(Start_Time),MAX(End_Date),MAX(End_Time),MAX(timeSt) FROM Pre_Batch_Report WHERE End_Time LIKE '%:%' AND Batch_No = '"+name+"' GROUP BY Batch_No ORDER BY MAX(timeSt) DESC")
+    overview.execute("""
+                     SELECT bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size,MIN(pv.[DateTime]) as StartDateTime , MAX(pv.[datetime]) as StopDateTime
+                        FROM  BatchHistory.dbo.BatchIdLog bil 
+                        inner join BatchHistory.dbo.ProcessVar pv 
+                        ON bil.Batch_Log_ID = pv.Batch_Log_ID AND bil.Batch_Log_ID = ?
+                        GROUP BY bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size;
+                        """,(name,))
        #for i in cursor:
     #    print(i)
     return render_template('overview.html',data=overview,nameUser=nameUser)
