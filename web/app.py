@@ -210,15 +210,26 @@ def Pre_bacth(name1,name2):
 @app.route('/Main_bacth/<string:name1>/<string:name2>', methods=['GET', 'POST'])
 @flask_login.login_required
 def Main_bacth(name1,name2):
+    
    
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
     Main_bacth.execute("""
-                        
-                       """)
-    #for i in cursor:
-    #    print(i)
-    return  render_template('Main_bacth.html',bacth=name1,id = name2,Main_bacth=Main_bacth,nameUser=nameUser)
+                        SELECT * FROM BatchHistory.dbo.ProcessVar pv WHERE Batch_Log_ID =? AND UnitOrConnection = 'MX101' ORDER BY [DateTime] ASC;
+                       """,(name2,))
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+    Phase_Parameter = cnxn.cursor()
+    Phase_Parameter.execute("SELECT * FROM  BatchHistory.dbo.[Parameter] WHERE MX = 'MX101'") 
+    
+    Phase_Parameter_DIR = Phase_Parameter.fetchall()
+
+    insertObject = []
+    columnNames = [column[0] for column in Phase_Parameter.description]
+    for record in Phase_Parameter_DIR:
+        insertObject.append( dict( zip( columnNames , record ) ) )
+    print(insertObject)
+    print(insertObject[0]['ParameterName'])
+    return  render_template('Main_bacth.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth=Main_bacth,nameUser=nameUser)
 
 
 @app.route('/pdfOverview/<string:name1>/<string:name2>', methods=['GET', 'POST'])
