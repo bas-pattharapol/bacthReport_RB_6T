@@ -213,7 +213,9 @@ def Main_bacth(name1,name2):
    
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
-    Main_bacth.execute("SELECT * FROM Main_Batch_Report  WHERE Step_End_Time LIKE '%:%' AND Batch_No = '"+ name1+"' ORDER BY Recipe_Step ASC ")
+    Main_bacth.execute("""
+                        
+                       """)
     #for i in cursor:
     #    print(i)
     return  render_template('Main_bacth.html',bacth=name1,id = name2,Main_bacth=Main_bacth,nameUser=nameUser)
@@ -519,7 +521,8 @@ def home():
                     inner join BatchHistory.dbo.ProcessVar pv 
                     ON bil.Batch_Log_ID = pv.Batch_Log_ID 
                     GROUP BY bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size
-                   """)
+                    ORDER BY MIN(pv.[DateTime]) DESC
+                    """)
     # for i in cursor:
     #    print(i)
     return render_template('home.html',data = cursor,nameUser=nameUser)  
