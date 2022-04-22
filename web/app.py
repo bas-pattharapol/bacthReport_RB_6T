@@ -215,7 +215,7 @@ def Main_bacth(name1,name2):
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
     Main_bacth.execute("""
-                        SELECT * FROM BatchHistory.dbo.ProcessVar pv WHERE Batch_Log_ID =? AND UnitOrConnection = 'MX101' ORDER BY [DateTime] ASC;
+                        SELECT DISTINCT  Phase_Instance_ID , Phase_ID , UnitOrConnection  ,[DateTime] FROM BatchHistory.dbo.ProcessVar pv WHERE Batch_Log_ID =? AND UnitOrConnection = 'MX101' ORDER BY [DateTime] ASC;
                        """,(name2,))
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
     Phase_Parameter = cnxn.cursor()
