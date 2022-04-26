@@ -215,8 +215,15 @@ def Main_bacth(name1,name2):
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
     Main_bacth.execute("""
-                        SELECT DISTINCT  Phase_Instance_ID , Phase_ID , UnitOrConnection  ,[DateTime] FROM BatchHistory.dbo.ProcessVar pv WHERE Batch_Log_ID =? AND UnitOrConnection = 'MX101' ORDER BY [DateTime] ASC;
-                       """,(name2,))
+                        SELECT   bd.UnitOrConnection, bd.Phase_ID, bd.DateTime as startTime , bd2.DateTime as stopTime 
+                        from BatchHistory.dbo.BatchDetail bd
+                        INNER JOIN BatchHistory.dbo.BatchDetail bd2
+                        ON bd.Phase_Instance_ID = bd2.Phase_Instance_ID
+                        WHERE bd.Batch_Log_ID = ? And (bd.Action_CD = '227') AND (bd.UnitOrConnection = 'MX101' or bd.UnitOrConnection LIKE '%_MX101' )
+                        AND bd2.Batch_Log_ID = ? And (bd2.Action_CD = '234') AND (bd2.UnitOrConnection = 'MX101' or bd2.UnitOrConnection LIKE '%_MX101' )
+                        ORDER BY bd.DateTime ASC;
+
+                       """,(name2,name2))
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
     Phase_Parameter = cnxn.cursor()
     Phase_Parameter.execute("SELECT * FROM  BatchHistory.dbo.[Parameter] WHERE MX = 'MX101'") 
@@ -229,7 +236,34 @@ def Main_bacth(name1,name2):
         insertObject.append( dict( zip( columnNames , record ) ) )
     print(insertObject)
     print(insertObject[0]['ParameterName'])
-    return  render_template('Main_bacth.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth=Main_bacth,nameUser=nameUser)
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+    ProcessVar = cnxn.cursor()
+    ProcessVar.execute("SELECT * FROM BatchHistory.dbo.ProcessVar WHERE Batch_Log_ID = ?",(name2,)) 
+    
+    countLen = []
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Main_bacth2  = cnxn.cursor()
+    Main_bacth2.execute("""
+                       SELECT bd.UnitOrConnection, bd.Phase_ID, bd.DateTime as startTime , bd2.DateTime as stopTime 
+                        from BatchHistory.dbo.BatchDetail bd
+                        INNER JOIN BatchHistory.dbo.BatchDetail bd2
+                        ON bd.Phase_Instance_ID = bd2.Phase_Instance_ID
+                        WHERE bd.Batch_Log_ID = ? And (bd.Action_CD = '227') AND (bd.UnitOrConnection = 'MX101' or bd.UnitOrConnection LIKE 'T%_MX101' or bd.UnitOrConnection LIKE 'MX101_%')
+                        AND bd2.Batch_Log_ID = ? And (bd2.Action_CD = '234') AND (bd2.UnitOrConnection = 'MX101' or bd2.UnitOrConnection LIKE 'T%_MX101' or bd2.UnitOrConnection LIKE 'MX101_%')
+                        ORDER BY bd.DateTime ASC;
+
+                       """,(name2,name2))
+    countMain_bacth2 = 1
+    for i in Main_bacth2:
+        countMain_bacth2 += 1
+    for i in range(1,countMain_bacth2,1):
+        countLen.append(i)
+    
+    print(countLen)
+    
+    return  render_template('Main_bacth.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth_and_Count= zip(Main_bacth,countLen),nameUser=nameUser,ProcessVar=ProcessVar)
 
 
 @app.route('/pdfOverview/<string:name1>/<string:name2>', methods=['GET', 'POST'])

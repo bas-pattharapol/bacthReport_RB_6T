@@ -200,7 +200,7 @@
                                 <table id="example" class="display nowrap" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="4" style="text-align: center"></th>
+                                            <th colspan="5" style="text-align: center"></th>
                                             <th colspan="2" style="text-align: center">Parameter 1</th>
                                             <th colspan="2" style="text-align: center">Parameter 2</th>
                                             <th colspan="2" style="text-align: center">Parameter 3</th>
@@ -213,10 +213,11 @@
                                             <th colspan="2" style="text-align: center">Parameter 10</th>
                                         </tr>
                                         <tr>
-                                            <th style="text-align: center">Recipe Step</th>
+                                            <th style="text-align: center">Step</th>
                                             <th style="text-align: center">Phase</th>
                                             <th style="text-align: center">-</th>
-                                            <th style="text-align: center">DateTime</th>
+                                            <th style="text-align: center">StartDateTime</th>
+                                            <th style="text-align: center">StopDateTime</th>
                                             <th style="text-align: center">SP</th>
                                             <th style="text-align: center">PV</th>
                                             <th style="text-align: center">SP</th>
@@ -242,11 +243,12 @@
                                     </thead>
                                     <tbody>
 
-                                        {%for i in Main_bacth%}
+                                        {%for i , o in Main_bacth_and_Count%}
 
                                         <tr class="group">
                                             {%for j in range(len)%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
-                                            <td colspan="3" align="left" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; "></td>
+                                            <td colspan="4" align="left" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; "></td>
+                                            <td style="display: none;"></td>
                                             <td style="display: none;"></td>
                                             <td style="display: none;"></td>
                                             <td style="display: none;"></td>
@@ -285,31 +287,18 @@
 
                                         </tr>
                                         <tr>
-                                            <td align="center">1</td>
+                                            <td align="center">{{o}}</td>
 
                                             <td align="center">{{i[1]}}</td>
+                                            <td align="center">{{i[2]}}</td>
+                                            <td align="center">{{i[2]}}</td>
                                             <td align="center">{{i[3]}}</td>
-                                            <td align="center">{{i[3]}}</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
-                                            <td align="center">=</td>
+                                            {%for n in range(10)%}
+                                            <td align="center">-</td>
+                                            <td align="center">-</td>
+                                            {%endfor%}
+
+
 
                                         </tr>
 
