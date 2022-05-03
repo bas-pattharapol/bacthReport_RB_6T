@@ -16,36 +16,52 @@ login_manager.init_app(app)
 users = {}
 nameUser = None
 
-server = "172.30.1.1"
-database = "RB_6T"
+server = "172.30.1.211"
+database = "RB_2T"
 username = "sa"
-password = "P@ssw0rd"
+password = "12345678"
 
 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
 test1 = cnxn.cursor()
 test1.execute("""             
-                SELECT DISTINCT Phase_Instance_ID , DateTime FROM BatchHistory.dbo.ProcessVar 
-                WHERE (UnitOrConnection = 'MX101' or UnitOrConnection LIKE 'T%_MX101' or UnitOrConnection LIKE 'MX101_%') AND Batch_Log_ID = '1J7YFPJS2T'
-                ORDER BY DateTime ASC; 
+               SELECT * from BatchHistory.dbo.BatchDetail WHERE Batch_Log_ID = '1J7YFPJS2T' AND Action_CD = '234' AND (UnitOrConnection = 'MX101' or UnitOrConnection LIKE 'T%_MX101' or UnitOrConnection LIKE 'MX101_%')
                         """) 
+
 col = []
-for s1 in test1:
+row = []
+t = []
+
+for s1 in test1 :
+    col.append(s1[6])
+#print(col)
+t = []
+count = 0
+for c in range(len(col)):
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
     test2 = cnxn.cursor()
-    test2.execute("""
-                            SELECT Actual_Value ,Target_Value FROM BatchHistory.dbo.ProcessVar 
-                            WHERE Phase_Instance_ID = ?
-                            ORDER BY DateTime ASC; 
-                            """,(s1[0],)) 
-   
-    row = []
-    for i in test2: 
-        row.append(i[0])
-        row.append(i[1])
-    print(len(row))
-    if len(row) < 20 :
-        for i in range(len(row),20,1):
-            row.append(' ')
-    col.append(row)
-print(col)
-print(len(col))
+    test2.execute("""             
+                SELECT DateTime  , Phase_Instance_ID , Phase_ID  ,Actual_Value ,Target_Value FROM BatchHistory.dbo.ProcessVar WHERE Batch_Log_ID = '1J7YFPJS2T'  AND (UnitOrConnection = 'MX101' or UnitOrConnection LIKE 'T%_MX101' or UnitOrConnection LIKE 'MX101_%')
+                """) 
+    count = 0
+    PreId = True
+    for s2 in test2:
+        if col[c] == s2[1]:
+            if PreId :
+                t.append(s2[1])
+                PreId = False
+            t.append(s2[3])
+            t.append(s2[4])
+            count += 1
+       
+    #t.append(col[c]) 
+    if count < 10:
+        for i in range(count, 10):
+            t.append("-")  
+            t.append("-") 
+    #t.append(col[c])     
+    row.append(t)
+    
+    t = []
+       
+           
+print(row)
