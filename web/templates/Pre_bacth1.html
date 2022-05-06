@@ -300,7 +300,28 @@
                                             <td align="center">{{i[2]}}</td>
                                             <td align="center">{{i[2]}}</td>
                                             <td align="center">{{i[3]}}</td>
-                                            {%for n in range(lenRow)%} {%if i[4] == row[n][0]%}
+                                            {%if i[1] == 'Discharge' or i[1] == 'AddPrew'%}
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            <td align="center"></td>
+                                            {%else%} {%for n in range(lenRow)%} {%if i[4] == row[n][0]%}
                                             <td align="center">{{row[n][1]}}</td>
                                             <td align="center">{{row[n][2]}}</td>
                                             <td align="center">{{row[n][3]}}</td>
@@ -322,7 +343,8 @@
                                             <td align="center">{{row[n][19]}}</td>
                                             <td align="center">{{row[n][20]}}</td>
 
-                                            {%endif%} {%endfor%}
+                                            {%endif%} {%endfor%} {%endif%}
+
 
 
 

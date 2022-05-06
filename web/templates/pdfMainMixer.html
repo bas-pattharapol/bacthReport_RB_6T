@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='bootstrap/dist/css/bootstrap.min.css', _external=True) }}" rel="stylesheet">
+
+
+    <!-- Menu CSS -->
+    <link href="{{ url_for('static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css', _external=True) }}" rel="stylesheet">
+
+
+    <link href="{{ url_for('static', filename='table/jquery.dataTables.min.css', _external=True) }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='table/dataTables.dateTime.min.css', _external=True) }}" rel="stylesheet">
+
+
+    <script src="{{ url_for('static', filename='table/jquery-3.5.1.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='table/jquery.dataTables.min.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='table/moment.min.js', _external=True) }}"></script>
+    <script src="{{ url_for('static', filename='table/dataTables.dateTime.min.js', _external=True) }}"></script>
+
+    <style>
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+        
+        tr.group,
+        tr.group:hover {
+            background-color: #ddd !important;
+        }
+        
+        .new-section table.fixed {
+            table-layout: fixed;
+        }
+        
+        th {
+            height: 35px;
+            page-break-before: auto;
+            page-break-inside: avoid !important;
+        }
+        
+        td {
+            height: 25px;
+            page-break-before: auto;
+            page-break-inside: avoid !important;
+        }
+        
+        .wrapping-div {
+            display: block;
+            page-break-inside: avoid !important;
+        }
+        
+        .wrapping-div table,
+        .wrapping-div tbody,
+        .wrapping-div tr,
+        .wrapping-div td,
+        .wrapping-div th {
+            page-break-inside: avoid !important;
+        }
+    </style>
+
+</head>
+
+<body class="fix-header">
+
+    <div id="wrapper">
+
+
+        <!-- /row -->
+        <div class="row">
+
+            <div class="col-sm-12">
+                <img src="{{ url_for('static', filename='plugins/images/icon_bg.png', _external=True) }}" style="padding-left: 90%; width: 100%;" alt="home" class="light-logo" />
+                <div class="white-box">
+
+                    <h2 align="center" class="box-title">Overview</h2>
+
+                    <div class="wrapping-div">
+                        {%for j in data %}
+                        <table border="1" width="100%" height="100%">
+                            <thead>
+                                <tr>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; Bacth No </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{bacth}}</td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; Recipe Name </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[5]}} </td>
+
+                                </tr>
+                                <tr>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; StartDateTime </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[9]}} </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 16px;background-color:#85003c;color:#ffffff ">&nbsp;&nbsp; EndDateTime </td>
+                                    <td style="font-family: Arial, Helvetica, sans-serif; font-size: 16px;">&nbsp;&nbsp; {{j[10]}} </td>
+
+                                </tr>
+
+
+                            </thead>
+
+
+
+                        </table>
+                        {%endfor%}
+                        <br>
+
+                        <h2 align="center" class="box-title">Main Mixig</h2>
+
+                        <table border="1" id="example" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th colspan="4" style="text-align: center"></th>
+                                    <th colspan="2" style="text-align: center">Parameter1</th>
+                                    <th colspan="2" style="text-align: center">Parameter2</th>
+                                    <th colspan="2" style="text-align: center">Parameter3</th>
+                                    <th colspan="2" style="text-align: center">Parameter4</th>
+                                    <th colspan="2" style="text-align: center">Parameter5</th>
+                                    <th colspan="2" style="text-align: center">Parameter6</th>
+                                    <th colspan="2" style="text-align: center">Parameter7</th>
+                                    <th colspan="2" style="text-align: center">Parameter8</th>
+                                    <th colspan="2" style="text-align: center">Parameter9</th>
+                                    <th colspan="2" style="text-align: center">Parameter10</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: center">Step</th>
+                                    <th style="text-align: center">Phase</th>
+                                    <th style="text-align: center">StartDateTime</th>
+                                    <th style="text-align: center">StopDateTime</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+                                    <th style="text-align: center">SP</th>
+                                    <th style="text-align: center">PV</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {%for i , o in Main_bacth_and_Count%}
+
+                                <tr class="group">
+                                    {%for j in range(len)%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="4" align="left" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; "></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter1']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter2']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter3']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter4']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter5']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter6']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter7']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter8']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter9']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%}{%if i[1]|string == Phase_Parameter[j]['ParameterName']|string%}
+                                    <td colspan="2" align="center" style="font-family: Arial, Helvetica, sans-serif;font-weight: bold; font-size: 14px; ">{{Phase_Parameter[j]['Parameter10']}}</td>
+                                    <td style="display: none;"></td>
+                                    {%endif%} {%endfor%}
+
+
+                                </tr>
+                                <tr>
+                                    <td align="center">{{o}}</td>
+
+                                    <td align="center">{{i[1]}}</td>
+                                    <td align="center">{{i[2]}}</td>
+                                    <td align="center">{{i[3]}}</td>
+                                    {%if i[1] == 'Discharge' or i[1] == 'AddPrew'%}
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    <td align="center"></td>
+                                    {%else%} {%for n in range(lenRow)%} {%if i[4] == row[n][0]%}
+                                    <td align="center">{{row[n][1]}}</td>
+                                    <td align="center">{{row[n][2]}}</td>
+                                    <td align="center">{{row[n][3]}}</td>
+                                    <td align="center">{{row[n][4]}}</td>
+                                    <td align="center">{{row[n][5]}}</td>
+                                    <td align="center">{{row[n][6]}}</td>
+                                    <td align="center">{{row[n][7]}}</td>
+                                    <td align="center">{{row[n][8]}}</td>
+                                    <td align="center">{{row[n][9]}}</td>
+                                    <td align="center">{{row[n][10]}}</td>
+                                    <td align="center">{{row[n][11]}}</td>
+                                    <td align="center">{{row[n][12]}}</td>
+                                    <td align="center">{{row[n][13]}}</td>
+                                    <td align="center">{{row[n][14]}}</td>
+                                    <td align="center">{{row[n][15]}}</td>
+                                    <td align="center">{{row[n][16]}}</td>
+                                    <td align="center">{{row[n][17]}}</td>
+                                    <td align="center">{{row[n][18]}}</td>
+                                    <td align="center">{{row[n][19]}}</td>
+                                    <td align="center">{{row[n][20]}}</td>
+
+                                    {%endif%} {%endfor%} {%endif%}
+
+
+
+
+                                </tr>
+
+                                {%endfor%}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+
+
+    <!-- /#wrapper -->
+    <script>
+        var minDate, maxDate;
+
+        // Custom filtering function which will search data in column four between two values
+        $.fn.dataTable.ext.search.push(
+            function(settings, data, dataIndex) {
+                var min = minDate.val();
+                var max = maxDate.val();
+                var date = new Date(data[2]);
+
+                console.log(date)
+
+                if (
+                    (min === null && max === null) ||
+                    (min === null && date <= max) ||
+                    (min <= date && max === null) ||
+                    (min <= date && date <= max)
+                ) {
+                    return true;
+                }
+                return false;
+            }
+        );
+
+
+
+
+        $(document).ready(function() {
+
+
+            // Create date inputs
+            minDate = new DateTime($('#min'), {
+                format: 'YYYY-MM-DD'
+            });
+            maxDate = new DateTime($('#max'), {
+                format: 'YYYY-MM-DD'
+            });
+
+            // DataTables initialisation
+            var groupColumn = 2;
+            var data1 = 2;
+            var dataid;
+            var table = $('#example').DataTable({
+                dom: 'Bfrtip'
+
+            });
+
+            // Refilter the table
+            $('#min, #max').on('change', function() {
+                table.draw();
+            });
+
+        });
+
+
+        var data = table.row('#row-1');
+        console.log(data)
+
+        function show() {
+            var x = document.getElementById("myDIV ");
+            if (x.style.display === "none ") {
+                x.style.display = "block ";
+            } else {
+                x.style.display = "none ";
+            }
+        }
+    </script>
+
+    <script>
+        function print() {
+            var objFra = document.getElementById('test');
+            objFra.contentWindow.focus();
+            objFra.contentWindow.print();
+        }
+    </script>
+
+
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for( 'static', filename='bootstrap/dist/js/bootstrap.min.js' , _external=True) }} "></script>
+    <script src="{{ url_for( 'static', filename='plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js', _external=True ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/jquery.slimscroll.js', _external=True ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/waves.js', _external=True ) }} "></script>
+    <script src="{{ url_for( 'static', filename='js/custom.min.js' , _external=True) }} "></script>
+
+</body>
+
+</html>

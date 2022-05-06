@@ -277,9 +277,16 @@ def Pre_bacth_1(name1,name2,name3):
                 if PreId :
                     t.append(s2[1])
                     PreId = False
-                t.append(s2[3])
-                t.append(s2[4])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[3]))))  
+                except:
+                    t.append(s2[3])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[4]))))  
+                except:
+                    t.append(s2[4])
                 count += 1
+              
         
         #t.append(col[c]) 
         if count < 10:
@@ -375,8 +382,14 @@ def Pre_bacth_2(name1,name2,name3):
                 if PreId :
                     t.append(s2[1])
                     PreId = False
-                t.append(s2[3])
-                t.append(s2[4])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[3]))))  
+                except:
+                    t.append(s2[3])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[4]))))  
+                except:
+                    t.append(s2[4])
                 count += 1
         
         #t.append(col[c]) 
@@ -474,8 +487,14 @@ def Main_bacth(name1,name2,name3):
                 if PreId :
                     t.append(s2[1])
                     PreId = False
-                t.append(s2[3])
-                t.append(s2[4])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[3]))))  
+                except:
+                    t.append(s2[3])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[4]))))  
+                except:
+                    t.append(s2[4])
                 count += 1
         
         #t.append(col[c]) 
@@ -493,8 +512,8 @@ def Main_bacth(name1,name2,name3):
     return  render_template('Main_bacth.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth_and_Count= zip(Main_bacth,countLen),nameUser=nameUser,row=row,lenRow = len(row),Recipe=name3)
 
 
-@app.route('/pdfOverview/<string:name1>/<string:name2>/<string:name3>', methods=['GET', 'POST'])
-def pdfOverview(name1,name2,name3):
+@app.route('/pdfMainMixer/<string:name1>/<string:name2>/<string:name3>', methods=['GET', 'POST'])
+def pdfMainMixer(name1,name2,name3):
    
     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     Main_bacth  = cnxn.cursor()
@@ -536,6 +555,18 @@ def pdfOverview(name1,name2,name3):
                         ORDER BY bd.DateTime ASC;
 
                        """,(name2,name2))
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    overview = cnxn.cursor()
+    overview.execute("""
+                     SELECT bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size,MIN(pv.[DateTime]) as StartDateTime , MAX(pv.[datetime]) as StopDateTime
+                        FROM  BatchHistory.dbo.BatchIdLog bil 
+                        inner join BatchHistory.dbo.ProcessVar pv 
+                        ON bil.Batch_Log_ID = pv.Batch_Log_ID AND bil.Batch_Log_ID = ?
+                        GROUP BY bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size;
+                        """,(name2,))
+    
+    
     countMain_bacth2 = 1
     for i in Main_bacth2:
         countMain_bacth2 += 1
@@ -571,8 +602,14 @@ def pdfOverview(name1,name2,name3):
                 if PreId :
                     t.append(s2[1])
                     PreId = False
-                t.append(s2[3])
-                t.append(s2[4])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[3]))))  
+                except:
+                    t.append(s2[3])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[4]))))  
+                except:
+                    t.append(s2[4])
                 count += 1
         
         #t.append(col[c]) 
@@ -587,7 +624,7 @@ def pdfOverview(name1,name2,name3):
                 
     print(row)
 
-    rendered = render_template('PdfOverview.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth_and_Count= zip(Main_bacth,countLen),nameUser=nameUser,row=row,lenRow = len(row),Recipe=name3,data = Main_bacth2)
+    rendered = render_template('pdfMainMixer.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth_and_Count= zip(Main_bacth,countLen),nameUser=nameUser,row=row,lenRow = len(row),Recipe=name3,data = overview)
    
     css = 'D:\\Work\\foster\\bacthReport_RB_6T\\web\\testcss.css'
     config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
@@ -596,9 +633,9 @@ def pdfOverview(name1,name2,name3):
             
             'page-size': 'A4',
             'orientation': 'landscape',
-            'margin-top': '0.2in',
+            'margin-top': '0.5in',
             'margin-right': '0.2in',
-            'margin-bottom': '0.5in',
+            'margin-bottom': '0.4in',
             'margin-left': '0.2in',
             'encoding': "UTF-8",
             'footer-right': 'Page [page]',
@@ -615,6 +652,289 @@ def pdfOverview(name1,name2,name3):
     response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
     
     return  response
+
+@app.route('/pdfPreMixer1/<string:name1>/<string:name2>/<string:name3>', methods=['GET', 'POST'])
+def pdfPreMixer1(name1,name2,name3):
+   
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Main_bacth  = cnxn.cursor()
+    Main_bacth.execute("""
+                        SELECT   bd.UnitOrConnection, bd.Phase_ID, bd.DateTime as startTime , bd2.DateTime as stopTime , bd.Phase_Instance_ID 
+                        from BatchHistory.dbo.BatchDetail bd
+                        INNER JOIN BatchHistory.dbo.BatchDetail bd2
+                        ON bd.Phase_Instance_ID = bd2.Phase_Instance_ID
+                        WHERE bd.Batch_Log_ID = ? And (bd.Action_CD = '227') AND (bd.UnitOrConnection = 'MX102' or bd.UnitOrConnection LIKE 'T%_MX102' or bd.UnitOrConnection LIKE 'MX102_%')
+                        AND bd2.Batch_Log_ID = ? And (bd2.Action_CD = '234') AND (bd2.UnitOrConnection = 'MX102' or bd2.UnitOrConnection LIKE 'T%_MX102' or bd2.UnitOrConnection LIKE 'MX102_%')
+                        ORDER BY bd.DateTime ASC;
+
+                       """,(name2,name2))
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+    Phase_Parameter = cnxn.cursor()
+    Phase_Parameter.execute("SELECT * FROM  BatchHistory.dbo.[Parameter] WHERE MX = 'MX102'") 
+    
+    Phase_Parameter_DIR = Phase_Parameter.fetchall()
+
+    insertObject = []
+    columnNames = [column[0] for column in Phase_Parameter.description]
+    for record in Phase_Parameter_DIR:
+        insertObject.append( dict( zip( columnNames , record ) ) )
+    print(insertObject)
+    print(insertObject[0]['ParameterName'])
+    
+  
+    countLen = []
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Main_bacth2  = cnxn.cursor()
+    Main_bacth2.execute("""
+                       SELECT bd.UnitOrConnection, bd.Phase_ID, bd.DateTime as startTime , bd2.DateTime as stopTime 
+                        from BatchHistory.dbo.BatchDetail bd
+                        INNER JOIN BatchHistory.dbo.BatchDetail bd2
+                        ON bd.Phase_Instance_ID = bd2.Phase_Instance_ID
+                        WHERE bd.Batch_Log_ID = ? And (bd.Action_CD = '227') AND (bd.UnitOrConnection = 'MX102' or bd.UnitOrConnection LIKE 'T%_MX102' or bd.UnitOrConnection LIKE 'MX102_%')
+                        AND bd2.Batch_Log_ID = ? And (bd2.Action_CD = '234') AND (bd2.UnitOrConnection = 'MX102' or bd2.UnitOrConnection LIKE 'T%_MX102' or bd2.UnitOrConnection LIKE 'MX102_%')
+                        ORDER BY bd.DateTime ASC;
+
+                       """,(name2,name2))
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    overview = cnxn.cursor()
+    overview.execute("""
+                     SELECT bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size,MIN(pv.[DateTime]) as StartDateTime , MAX(pv.[datetime]) as StopDateTime
+                        FROM  BatchHistory.dbo.BatchIdLog bil 
+                        inner join BatchHistory.dbo.ProcessVar pv 
+                        ON bil.Batch_Log_ID = pv.Batch_Log_ID AND bil.Batch_Log_ID = ?
+                        GROUP BY bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size;
+                        """,(name2,))
+    
+    
+    countMain_bacth2 = 1
+    for i in Main_bacth2:
+        countMain_bacth2 += 1
+    for i in range(1,countMain_bacth2,1):
+        countLen.append(i)
+    
+    print(countLen)
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+    test1 = cnxn.cursor()
+    test1.execute("""             
+                SELECT * from BatchHistory.dbo.BatchDetail WHERE Batch_Log_ID = ? AND Action_CD = '234' AND (UnitOrConnection = 'MX102' or UnitOrConnection LIKE 'T%_MX102' or UnitOrConnection LIKE 'MX102_%')
+                """,(name2)) 
+
+    col = []
+    row = []
+    t = []
+
+    for s1 in test1 :
+        col.append(s1[6])
+    #print(col)
+    t = []
+    for c in range(len(col)):
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+        test2 = cnxn.cursor()
+        test2.execute("""             
+                    SELECT DateTime  , Phase_Instance_ID , Phase_ID  ,Actual_Value ,Target_Value FROM BatchHistory.dbo.ProcessVar WHERE Batch_Log_ID =?  AND (UnitOrConnection = 'MX102' or UnitOrConnection LIKE 'T%_MX102' or UnitOrConnection LIKE 'MX102_%')
+                    """,(name2)) 
+        count = 0
+        PreId = True
+        for s2 in test2:
+            if col[c] == s2[1]:
+                if PreId :
+                    t.append(s2[1])
+                    PreId = False
+                try:
+                    t.append(float("{:.2f}".format(float(s2[3]))))  
+                except:
+                    t.append(s2[3])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[4]))))  
+                except:
+                    t.append(s2[4])
+                count += 1
+        
+        #t.append(col[c]) 
+        if count < 10:
+            for i in range(count, 10):
+                t.append(" ")  
+                t.append(" ") 
+        #t.append(col[c])     
+        row.append(t)
+        
+        t = []
+                
+    print(row)
+
+    rendered = render_template('pdfPreMixer1.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth_and_Count= zip(Main_bacth,countLen),nameUser=nameUser,row=row,lenRow = len(row),Recipe=name3,data = overview)
+   
+    css = 'D:\\Work\\foster\\bacthReport_RB_6T\\web\\testcss.css'
+    config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
+    #options = {'enable-local-file-access': None,'page-size':'A4', 'orientation': 'landscape','footer-right': 'Page [page]','dpi': 96}
+    options = {
+            
+            'page-size': 'A4',
+            'orientation': 'landscape',
+            'margin-top': '0.5in',
+            'margin-right': '0.2in',
+            'margin-bottom': '0.4in',
+            'margin-left': '0.2in',
+            'encoding': "UTF-8",
+            'footer-right': 'Page [page]',
+            'custom-header': [
+                ('Accept-Encoding', 'gzip')
+            ],
+            
+            
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options , css=css)
+
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    
+    return  response
+
+@app.route('/pdfPreMixer2/<string:name1>/<string:name2>/<string:name3>', methods=['GET', 'POST'])
+def pdfPreMixer2(name1,name2,name3):
+   
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Main_bacth  = cnxn.cursor()
+    Main_bacth.execute("""
+                        SELECT   bd.UnitOrConnection, bd.Phase_ID, bd.DateTime as startTime , bd2.DateTime as stopTime , bd.Phase_Instance_ID 
+                        from BatchHistory.dbo.BatchDetail bd
+                        INNER JOIN BatchHistory.dbo.BatchDetail bd2
+                        ON bd.Phase_Instance_ID = bd2.Phase_Instance_ID
+                        WHERE bd.Batch_Log_ID = ? And (bd.Action_CD = '227') AND (bd.UnitOrConnection = 'MX103' or bd.UnitOrConnection LIKE 'T%_MX103' or bd.UnitOrConnection LIKE 'MX103_%')
+                        AND bd2.Batch_Log_ID = ? And (bd2.Action_CD = '234') AND (bd2.UnitOrConnection = 'MX103' or bd2.UnitOrConnection LIKE 'T%_MX103' or bd2.UnitOrConnection LIKE 'MX103_%')
+                        ORDER BY bd.DateTime ASC;
+
+                       """,(name2,name2))
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+    Phase_Parameter = cnxn.cursor()
+    Phase_Parameter.execute("SELECT * FROM  BatchHistory.dbo.[Parameter] WHERE MX = 'MX103'") 
+    
+    Phase_Parameter_DIR = Phase_Parameter.fetchall()
+
+    insertObject = []
+    columnNames = [column[0] for column in Phase_Parameter.description]
+    for record in Phase_Parameter_DIR:
+        insertObject.append( dict( zip( columnNames , record ) ) )
+    print(insertObject)
+    print(insertObject[0]['ParameterName'])
+    
+  
+    countLen = []
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    Main_bacth2  = cnxn.cursor()
+    Main_bacth2.execute("""
+                       SELECT bd.UnitOrConnection, bd.Phase_ID, bd.DateTime as startTime , bd2.DateTime as stopTime 
+                        from BatchHistory.dbo.BatchDetail bd
+                        INNER JOIN BatchHistory.dbo.BatchDetail bd2
+                        ON bd.Phase_Instance_ID = bd2.Phase_Instance_ID
+                        WHERE bd.Batch_Log_ID = ? And (bd.Action_CD = '227') AND (bd.UnitOrConnection = 'MX103' or bd.UnitOrConnection LIKE 'T%_MX103' or bd.UnitOrConnection LIKE 'MX103_%')
+                        AND bd2.Batch_Log_ID = ? And (bd2.Action_CD = '234') AND (bd2.UnitOrConnection = 'MX103' or bd2.UnitOrConnection LIKE 'T%_MX103' or bd2.UnitOrConnection LIKE 'MX103_%')
+                        ORDER BY bd.DateTime ASC;
+
+                       """,(name2,name2))
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    overview = cnxn.cursor()
+    overview.execute("""
+                     SELECT bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size,MIN(pv.[DateTime]) as StartDateTime , MAX(pv.[datetime]) as StopDateTime
+                        FROM  BatchHistory.dbo.BatchIdLog bil 
+                        inner join BatchHistory.dbo.ProcessVar pv 
+                        ON bil.Batch_Log_ID = pv.Batch_Log_ID AND bil.Batch_Log_ID = ?
+                        GROUP BY bil.Batch_Log_ID , bil.Campaign_ID,bil.Lot_ID,bil.Batch_ID,bil.Product_ID,bil.Product_Name,bil.Recipe_ID,bil.Recipe_Name,bil.Batch_Size;
+                        """,(name2,))
+    
+    
+    countMain_bacth2 = 1
+    for i in Main_bacth2:
+        countMain_bacth2 += 1
+    for i in range(1,countMain_bacth2,1):
+        countLen.append(i)
+    
+    print(countLen)
+    
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+    test1 = cnxn.cursor()
+    test1.execute("""             
+                SELECT * from BatchHistory.dbo.BatchDetail WHERE Batch_Log_ID = ? AND Action_CD = '234' AND (UnitOrConnection = 'MX103' or UnitOrConnection LIKE 'T%_MX103' or UnitOrConnection LIKE 'MX103_%')
+                """,(name2)) 
+
+    col = []
+    row = []
+    t = []
+
+    for s1 in test1 :
+        col.append(s1[6])
+    #print(col)
+    t = []
+    for c in range(len(col)):
+        cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+ server +';DATABASE='+database+';UID='+username+';PWD='+password)
+        test2 = cnxn.cursor()
+        test2.execute("""             
+                    SELECT DateTime  , Phase_Instance_ID , Phase_ID  ,Actual_Value ,Target_Value FROM BatchHistory.dbo.ProcessVar WHERE Batch_Log_ID =?  AND (UnitOrConnection = 'MX103' or UnitOrConnection LIKE 'T%_MX103' or UnitOrConnection LIKE 'MX103_%')
+                    """,(name2)) 
+        count = 0
+        PreId = True
+        for s2 in test2:
+            if col[c] == s2[1]:
+                if PreId :
+                    t.append(s2[1])
+                    PreId = False
+                try:
+                    t.append(float("{:.2f}".format(float(s2[3]))))  
+                except:
+                    t.append(s2[3])
+                try:
+                    t.append(float("{:.2f}".format(float(s2[4]))))  
+                except:
+                    t.append(s2[4])
+                count += 1
+        
+        #t.append(col[c]) 
+        if count < 10:
+            for i in range(count, 10):
+                t.append(" ")  
+                t.append(" ") 
+        #t.append(col[c])     
+        row.append(t)
+        
+        t = []
+                
+    print(row)
+
+    rendered = render_template('pdfPreMixer2.html',Phase_Parameter=insertObject,len=len(Phase_Parameter_DIR),bacth=name1,id = name2,Main_bacth_and_Count= zip(Main_bacth,countLen),nameUser=nameUser,row=row,lenRow = len(row),Recipe=name3,data = overview)
+   
+    css = 'D:\\Work\\foster\\bacthReport_RB_6T\\web\\testcss.css'
+    config = pdfkit.configuration(wkhtmltopdf='C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe')
+    #options = {'enable-local-file-access': None,'page-size':'A4', 'orientation': 'landscape','footer-right': 'Page [page]','dpi': 96}
+    options = {
+            
+            'page-size': 'A4',
+            'orientation': 'landscape',
+            'margin-top': '0.5in',
+            'margin-right': '0.2in',
+            'margin-bottom': '0.4in',
+            'margin-left': '0.2in',
+            'encoding': "UTF-8",
+            'footer-right': 'Page [page]',
+            'custom-header': [
+                ('Accept-Encoding', 'gzip')
+            ],
+            
+            
+    }
+    pdf = pdfkit.from_string(rendered, False, configuration=config, options=options , css=css)
+
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline;filename=output.pdf'
+    
+    return  response
+
 
 @app.route('/pdfOverview_Excel/<string:name1>/<string:name2>/<string:name3>', methods=['GET', 'POST'])
 def pdfOverview_Excel(name1,name2,name3):
